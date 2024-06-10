@@ -1,7 +1,6 @@
 ﻿using IMPAR_API.Models;
 using Microsoft.EntityFrameworkCore;
 using IMPAR_API.Data;
-using Microsoft.AspNetCore.Mvc;
 using IMPAR_API.Repositories.Interfaces;
 
 namespace IMPAR_API.Repositories
@@ -58,18 +57,12 @@ namespace IMPAR_API.Repositories
             _dbContext.Cars.Add(car);
             await _dbContext.SaveChangesAsync();
 
-            // Check if the car has a photo
             if (car.Photo != null)
             {
-                // Add the photo to the database
                 var photo = new Photo { Base64 = car.Photo.Base64 };
                 _dbContext.Photos.Add(photo);
                 await _dbContext.SaveChangesAsync();
-
-                // Update the car's PhotoId property with the newly created photo's ID
                 car.PhotoId = photo.Id;
-
-                // Save the changes to the car to update the PhotoId property
                 await _dbContext.SaveChangesAsync();
             }
         }
@@ -80,7 +73,6 @@ namespace IMPAR_API.Repositories
             _dbContext.Cars.Attach(car);
             _dbContext.Entry(car).State = EntityState.Modified;
 
-            // If the car has a photo, update it as well
             if (car.Photo != null)
             {
                 _dbContext.Photos.Attach(car.Photo);

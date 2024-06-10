@@ -21,7 +21,7 @@ namespace IMPAR_API.Controllers
         [EnableQuery]
         public async Task<ActionResult<IEnumerable<Car>>> Get(int skip = 0, int top = 10)
         {
-            var cars = await _carService.GetPaginatedAsync(skip, top, includePhoto: true); // Specify to include photo data
+            var cars = await _carService.GetPaginatedAsync(skip, top, includePhoto: true);
             return Ok(cars);
         }
 
@@ -29,7 +29,7 @@ namespace IMPAR_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> Get(int id)
         {
-            var car = await _carService.GetByIdAsync(id, includePhoto: true); // Specify to include photo data
+            var car = await _carService.GetByIdAsync(id, includePhoto: true); 
             if (car == null)
             {
                 return NotFound();
@@ -44,14 +44,14 @@ namespace IMPAR_API.Controllers
             {
                 if (car.Photo != null)
                 {
-                    // If the car has a photo, add it
+                    
                     var newCar = await _carService.AddAsync(car);
                     await _carService.AddPhotoAsync(newCar.Id, car.Photo.Base64);
                     return CreatedAtAction(nameof(Get), new { id = newCar.Id }, newCar);
                 }
                 else
                 {
-                    // If the car has no photo, just add it without adding a photo
+                    
                     var newCar = await _carService.AddAsync(car);
                     return CreatedAtAction(nameof(Get), new { id = newCar.Id }, newCar);
                 }

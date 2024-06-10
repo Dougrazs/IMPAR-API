@@ -40,13 +40,8 @@ namespace IMPAR_API.Services
                 throw new ArgumentException($"Car with id {carId} not found.");
             }
 
-            // Create a new photo object with the provided Base64 string
             var photo = new Photo { Base64 = img64 };
-
-            // Associate the photo with the car
             car.Photo = photo;
-
-            // Add the photo to the database
             await _carRepository.AddPhotoAsync(photo);
         }
 
@@ -59,7 +54,6 @@ namespace IMPAR_API.Services
                 throw new ArgumentException("Car not found.");
             }
 
-            // Update only the provided fields
             if (!string.IsNullOrEmpty(updatedCar.Name))
             {
                 existingCar.Name = updatedCar.Name;
